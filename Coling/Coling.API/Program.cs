@@ -23,6 +23,11 @@ var host = new HostBuilder()
                      configuration.GetConnectionString("cadenaConexion")));
         services.AddScoped<IPersonaLogic, PersonaLogic>();
         services.AddScoped<ITelefonoLogic, TelefonoLogic>();
+        services.AddScoped<IAfiliadoLogic, AfiliadoLogic>();
+        services.AddScoped<IDireccionLogic, DireccionLogic>();
+        services.AddScoped<IPersonaTipoSocialLogic, PersonaTipoSocialLogic>();
+        services.AddScoped<IProfesionAfiliadoLogic, ProfesionAfiliadoLogic>();
+        services.AddScoped<ITipoSocialLogic, TipoSocialLogic>();
     })
     .Build();
 
