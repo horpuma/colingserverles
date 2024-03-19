@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System.Net;
 
 namespace Coling.API.Curriculum.EndPoints
@@ -19,8 +22,13 @@ namespace Coling.API.Curriculum.EndPoints
             _logger = logger;
             this.repos = repos;
         }
-
         [Function("InsertarEstudios")]
+        [OpenApiOperation("Insertarspec", "InsertarEstudios", Description = " Sirve para ingresar una Estudios")]
+        [OpenApiRequestBody("application/json", typeof(Estudios),
+            Description = "Ingresar Estudios nueva")]
+        /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", 
+            bodyType: typeof(List<Estudios>), 
+            Description = "Mostrara una lista de Estudioss")]*/
         public async Task<HttpResponseData> InsertarEstudios([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             HttpResponseData respuesta;
@@ -47,6 +55,8 @@ namespace Coling.API.Curriculum.EndPoints
         }
 
         [Function("ListarEstudios")]
+        [OpenApiOperation("Listarspec", "ListarEstudios", Description = " Sirve para listar todas los Estudios")]
+
         public async Task<HttpResponseData> ListarEstudios([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             HttpResponseData respuesta;
@@ -67,6 +77,11 @@ namespace Coling.API.Curriculum.EndPoints
 
         }
         [Function("ListarEstudiosId")]
+        [OpenApiOperation("Listaridspec", "ListarEstudiosId", Description = " Sirve para listar una Estudios por id")]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "ID de los Estudios", Description = "El RowKey de los Estudios a obtener", Visibility = OpenApiVisibilityType.Important)]
+        /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+            bodyType: typeof(List<Estudios>),
+            Description = "Mostrara una lista de Estudioss")]*/
         public async Task<HttpResponseData> ListarEstudiosId([HttpTrigger(AuthorizationLevel.Function, "get", Route = "listarEstudioss/{id}")] HttpRequestData req, string id)
         {
             HttpResponseData respuesta;
@@ -85,6 +100,9 @@ namespace Coling.API.Curriculum.EndPoints
 
         }
         [Function("ModificarEstudios")]
+        [OpenApiOperation("Modificarspec", "ModificarEstudios", Description = " Sirve para editar una Estudios")]
+        [OpenApiRequestBody("application/json", typeof(Estudios),
+            Description = "editar Estudios")]
         public async Task<HttpResponseData> ModificarEstudios(
         [HttpTrigger(AuthorizationLevel.Function, "put", Route = "modificarEstudios")] HttpRequestData req)
         {
@@ -110,6 +128,12 @@ namespace Coling.API.Curriculum.EndPoints
 
 
         [Function("EliminarEstudios")]
+        [OpenApiOperation("Eliminarspec", "DeleteEstudios", Description = " Sirve para eliminar un Estudio")]
+        [OpenApiParameter(name: "partitionKey", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "PartitionKey del Estudio", Description = "El PartitionKey del Estudio a borrar", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiParameter(name: "rowkey", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "RowKey del Estudio", Description = "El RowKey del Estudio a borrar", Visibility = OpenApiVisibilityType.Important)]
+
+        /*[OpenApiRequestBody("application/json", typeof(Estudios),
+            Description = "Ingresar Estudios nueva")]*/
         public async Task<HttpResponseData> EliminarEstudios(
         [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "eliminarEstudios/{partitionKey},{rowkey}")] HttpRequestData req,
         string partitionKey, string rowkey)
