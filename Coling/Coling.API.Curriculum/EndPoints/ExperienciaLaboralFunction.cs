@@ -30,7 +30,7 @@ namespace Coling.API.Curriculum.EndPoints
         /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", 
             bodyType: typeof(List<ExperienciaLaboral>), 
             Description = "Mostrara una lista de ExperienciaLaborals")]*/
-        public async Task<HttpResponseData> InsertarExperienciaLaboral([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
+        public async Task<HttpResponseData> InsertarExperienciaLaboral([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
             HttpResponseData respuesta;
             try
@@ -58,7 +58,7 @@ namespace Coling.API.Curriculum.EndPoints
         [Function("ListarExperienciaLaboral")]
         [OpenApiOperation("Listarspec", "ListarExperinciaLaboral", Description = " Sirve para listar todas las ExperinciaLaborales")]
 
-        public async Task<HttpResponseData> ListarExperienciaLaboral([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        public async Task<HttpResponseData> ListarExperienciaLaboral([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             HttpResponseData respuesta;
             try
@@ -83,7 +83,7 @@ namespace Coling.API.Curriculum.EndPoints
         /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
             bodyType: typeof(List<ExperienciaLaboral>),
             Description = "Mostrara una lista de ExperienciaLaborals")]*/
-        public async Task<HttpResponseData> ListarExperienciaLaboralId([HttpTrigger(AuthorizationLevel.Function, "get", Route = "listarExperienciaLaborals/{id}")] HttpRequestData req, string id)
+        public async Task<HttpResponseData> ListarExperienciaLaboralId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "listarExperienciaLaborals/{id}")] HttpRequestData req, string id)
         {
             HttpResponseData respuesta;
             try
@@ -105,7 +105,7 @@ namespace Coling.API.Curriculum.EndPoints
         [OpenApiRequestBody("application/json", typeof(ExperienciaLaboral),
             Description = "editar ExperienciaLaboral")]
         public async Task<HttpResponseData> ModificarExperienciaLaboral(
-        [HttpTrigger(AuthorizationLevel.Function, "put", Route = "modificarExperienciaLaboral")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "modificarExperienciaLaboral")] HttpRequestData req)
         {
             HttpResponseData respuesta;
 
@@ -136,7 +136,7 @@ namespace Coling.API.Curriculum.EndPoints
         /*[OpenApiRequestBody("application/json", typeof(ExperienciaLaboral),
             Description = "Ingresar ExperienciaLaboral nueva")]*/
         public async Task<HttpResponseData> EliminarExperienciaLaboral(
-        [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "eliminarExperienciaLaboral/{partitionKey},{rowkey}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "eliminarExperienciaLaboral/{partitionKey},{rowkey}")] HttpRequestData req,
         string partitionKey, string rowkey)
         {
             HttpResponseData respuesta;
