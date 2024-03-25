@@ -2,11 +2,15 @@ using Coling.API.Curriculum.Contratos.Repositorios;
 using Coling.API.Curriculum.Implementacion.Repositorios;
 using Coling.API.Curriculum.Modelo;
 using ColingShared;
+using Grpc.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System.Collections.Concurrent;
 using System.Net;
 
@@ -24,6 +28,13 @@ namespace Coling.API.Curriculum.EndPoints
         }
 
         [Function("InsertarInstitucion")]
+        [OpenApiOperation("Insertarspec", "InsertarInstitucion", Description = " Sirve para ingresar una institucion")]
+        [OpenApiRequestBody("application/json", typeof(Institucion),
+            Description ="Ingresar institucion nueva")]
+        /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", 
+            bodyType: typeof(List<Institucion>), 
+            Description = "Mostrara una lista de institucions")]*/
+
         public async Task<HttpResponseData> InsertarInstitucion([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             HttpResponseData respuesta;
@@ -50,6 +61,8 @@ namespace Coling.API.Curriculum.EndPoints
         }
 
         [Function("ListarInstitucion")]
+        [OpenApiOperation("Listarspec", "ListarInstitucion", Description = " Sirve para listar todas las instituciones")]
+        /*[OpenApiResponseWithBody(statusCode:HttpStatusCode.OK, contentType:"application/json",bodyType: typeof(List<Institucion>),Description = "Mostrara una lista de institucions")]*/
         public async Task<HttpResponseData> ListarInstitucion([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             HttpResponseData respuesta;
@@ -70,6 +83,11 @@ namespace Coling.API.Curriculum.EndPoints
 
         }
         [Function("ListarInstitucionId")]
+        [OpenApiOperation("Listaridspec", "ListarInstitucionId", Description = " Sirve para listar una institucion por id")]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "ID de la Institución", Description = "El RowKey de la institución a obtener", Visibility = OpenApiVisibilityType.Important)]
+        /*[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+            bodyType: typeof(List<Institucion>),
+            Description = "Mostrara una lista de institucions")]*/
         public async Task<HttpResponseData> ListarInstitucionId([HttpTrigger(AuthorizationLevel.Function, "get", Route = "listarInstitucions/{id}")] HttpRequestData req, string id)
         {
             HttpResponseData respuesta;
@@ -88,6 +106,9 @@ namespace Coling.API.Curriculum.EndPoints
 
         }
         [Function("ModificarInstitucion")]
+        [OpenApiOperation("Modificarspec", "ModificarInstitucion", Description = " Sirve para editar una institucion")]
+        [OpenApiRequestBody("application/json", typeof(Institucion),
+            Description = "editar institucion")]
         public async Task<HttpResponseData> ModificarInstitucion(
         [HttpTrigger(AuthorizationLevel.Function, "put", Route = "modificarInstitucion")] HttpRequestData req)
         {
@@ -113,6 +134,12 @@ namespace Coling.API.Curriculum.EndPoints
 
 
         [Function("EliminarInstitucion")]
+        [OpenApiOperation("Eliminarspec", "DeleteInstitucion", Description = " Sirve para eliminar una institucion")]
+        [OpenApiParameter(name: "partitionKey", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "PartitionKey de la Institución", Description = "El PartitionKey de la institución a borrar", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiParameter(name: "rowkey", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "RowKey de la Institución", Description = "El RowKey de la institución a borrar", Visibility = OpenApiVisibilityType.Important)]
+
+        /*[OpenApiRequestBody("application/json", typeof(Institucion),
+            Description = "Ingresar institucion nueva")]*/
         public async Task<HttpResponseData> EliminarInstitucion(
         [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "eliminarInstitucion/{partitionKey},{rowkey}")] HttpRequestData req,
         string partitionKey, string rowkey)
