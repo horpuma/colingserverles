@@ -22,6 +22,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coling.Utilitarios\Coling.Utilitarios.csproj" />
     <ProjectReference Include="..\ColingShared\ColingShared.csproj" />
   </ItemGroup>
   <ItemGroup>

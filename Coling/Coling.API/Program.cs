@@ -1,6 +1,7 @@
 using Coling.API.Afiliados;
 using Coling.API.Afiliados.Contratos;
 using Coling.API.Afiliados.Implementacion;
+using Coling.Utilitarios.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication()
+    //.ConfigureFunctionsWebApplication()
     .ConfigureServices(services =>
     {
         var configuration = new ConfigurationBuilder()
@@ -28,6 +29,9 @@ var host = new HostBuilder()
         services.AddScoped<IPersonaTipoSocialLogic, PersonaTipoSocialLogic>();
         services.AddScoped<IProfesionAfiliadoLogic, ProfesionAfiliadoLogic>();
         services.AddScoped<ITipoSocialLogic, TipoSocialLogic>();
+    }).ConfigureFunctionsWebApplication(x =>
+    {
+        x.UseMiddleware<JwtMiddleware>();
     })
     .Build();
 
