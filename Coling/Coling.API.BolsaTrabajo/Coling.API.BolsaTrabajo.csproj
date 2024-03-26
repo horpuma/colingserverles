@@ -35,6 +35,7 @@
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coling.Utilitarios\Coling.Utilitarios.csproj" />
     <ProjectReference Include="..\ColingShared\ColingShared.csproj" />
   </ItemGroup>
 </Project>
